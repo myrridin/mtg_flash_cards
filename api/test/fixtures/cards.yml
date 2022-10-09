@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  scryfall_id: 
+  mana_cost: MyString
+  name: MyString
+  type: 
+  text: MyString
+  set_code: MyString
+  artist: MyString
+
+two:
+  scryfall_id: 
+  mana_cost: MyString
+  name: MyString
+  type: 
+  text: MyString
+  set_code: MyString
+  artist: MyString

@@ -1,0 +1,16 @@
+FROM node
+
+RUN apt-get update
+RUN apt-get install inotify-tools -y
+
+ENV NPM_CONFIG_LOGLEVEL warn
+ARG app_env
+ENV APP_ENV $app_env
+
+RUN mkdir -p /myapp
+WORKDIR /myapp
+
+RUN yarn install
+
+CMD yarn start
+EXPOSE 8080
