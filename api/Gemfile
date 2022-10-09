@@ -18,6 +18,7 @@ gem 'uglifier'
 gem 'jbuilder'
 
 gem 'rack-cors'
+gem 'rest-client'
 
 # Fast JSON processing
 gem "fast_jsonparser"
