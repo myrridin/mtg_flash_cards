@@ -1,26 +1,61 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine.
-# See: https://circleci.com/docs/2.0/configuration-reference
-version: 2.1
+version: 2
+defaults: &defaults
+  working_directory: ~/project
+  machine:
+    - image: cimg/ruby:3.1.2
+      environment:
+        RAILS_ENV: test
 
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  say-hello:
-    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
-    docker:
-      - image: cimg/base:stable
-    # Add steps to the job
-    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+  build:
+    <<: *defaults
     steps:
       - checkout
       - run:
-          name: "Say hello"
-          command: "echo Hello, World!"
-
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+          name: Build docker images
+          command: docker-compose build
+      - run:
+          name: Publish docker images to Docker Hub
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            docker-compose push
+  rspec:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: cd ~/project
+      - run:
+          name: Pull docker images
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            docker-compose -f docker-compose.test.yml pull
+      - run:
+          name: Build docker compose environment
+          command: docker-compose -f docker-compose.test.yml build --pull
+      - run:
+          name: Start docker compose environment
+          command: docker-compose -f docker-compose.test.yml up -d
+      - run:
+          name: Create test database
+          command: docker-compose -f docker-compose.test.yml exec api bundle exec rails db:create
+      - run:
+          name: Load database schema
+          command: docker-compose -f docker-compose.test.yml exec api bundle exec rails db:schema:load
+      - run:
+          name: Run RSpec
+          command: |
+            docker-compose -f docker-compose.test.yml exec api bundle exec rspec --format progress --format RspecJunitFormatter -o .rspec_output
+      - store_test_results:
+          path: ./api/.rspec_output
 workflows:
-  say-hello-workflow:
+  version: 2
+  build_and_test:
     jobs:
-      - say-hello
+      - rspec
+
+
+
+#      - build
+#      - rspec:
+#          requires:
+#            - build

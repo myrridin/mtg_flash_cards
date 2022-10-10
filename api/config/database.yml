@@ -8,8 +8,8 @@ default: &default
 
 development:
   <<: *default
-  database: myapp_development
+  database: mtgflashcards_dev
 
 test:
   <<: *default
-  database: myapp_test
+  database: mtgflashcards_test

@@ -6,23 +6,17 @@ services:
       - ./database/db:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: password
-      BUNDLE_PATH: /bundle
+      RAILS_ENV: test
   api:
     image: myrridin/mtg_flash_cards_api
     build: ./api
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    command: bash -c "rm -f tmp/pids/server.pid && rails s -p 3000 -b '0.0.0.0'"
     volumes:
       - ./api:/myapp
     ports:
       - "3000:3000"
     depends_on:
       - db
-    volumes_from:
-      - bundle_cache
-  bundle_cache:
-    image: busybox
-    volumes:
-      - /bundle
   web:
     image: myrridin/mtg_flash_cards_web
     build: ./web
@@ -32,6 +26,3 @@ services:
       - "8080:8080"
     depends_on:
       - api
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-      - WATCHPACK_POLLING=true
