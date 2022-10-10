@@ -6,4 +6,8 @@ RSpec.describe Card do
   it "" do
     expect(true).to be_truthy
   end
+
+  it "fails" do
+    expect(false).to be_truthy
+  end
 end
