@@ -17,4 +17,3 @@ test:
 production:
   <<: *default
   database: mtgflashcards
-  password: <%= ENV['POSTGRES_PASSWORD'] %>
