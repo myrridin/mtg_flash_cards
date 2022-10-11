@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Update from git
-git stash
+git add -A
+git reset HEAD --hard
 git fetch
 git pull --rebase
 
