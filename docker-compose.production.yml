@@ -6,7 +6,6 @@ services:
       - ./database/db:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: mtgflashcards
-      POSTGRES_USER: mtgflashcards
   api:
     image: myrridin/mtg_flash_cards_api
     environment:
