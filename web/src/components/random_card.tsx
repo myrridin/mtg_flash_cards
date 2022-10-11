@@ -7,11 +7,17 @@ export default function RandomCard() {
 
     React.useEffect(
         () => {
-            let api_url = "http://localhost:3000/cards/"
+            let apiUrl:string;
+            if (process.env.NODE_ENV === 'production') {
+                apiUrl = "http://mtgflashcards.com/cards/"
+            }
+            else {
+                apiUrl = "http://localhost:3000/cards/"
+            }
 
             const getCardId = async () => {
                 console.log("FETCHING RANDOM CARD");
-                const response = await fetch(api_url)
+                const response = await fetch(apiUrl)
                 const data = await response.json();
                 console.log(data);
                 setCardId(data.random_card_id);

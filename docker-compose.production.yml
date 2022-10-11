@@ -1,0 +1,32 @@
+version: "3.2"
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./database/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: mtgflashcards
+  api:
+    image: myrridin/mtg_flash_cards_api
+    environment:
+      RAILS_ENV: production
+      RAILS_SERVE_STATIC_FILES: "true"
+    build:
+      context: ./api
+      dockerfile: Dockerfile-production
+    command: bash -c "rm -f tmp/pids/server.pid && rails s -p 80 -b '0.0.0.0'"
+    volumes:
+      - ./api:/myapp
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+  web:
+    image: myrridin/mtg_flash_cards_web
+    build: ./web
+    volumes:
+      - ./web:/myapp
+    ports:
+      - "8080:8080"
+    depends_on:
+      - api

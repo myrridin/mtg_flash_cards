@@ -19,9 +19,17 @@ export default class Card extends React.Component<{ id: any }, { card: any }> {
             return;
         }
 
-        let api_url = "http://localhost:3000/cards/" + this.props.id
+        let apiUrl:string;
+        if (process.env.NODE_ENV === 'production') {
+            apiUrl = "http://mtgflashcards.com/cards/"
+        }
+        else {
+            apiUrl = "http://localhost:3000/cards/"
+        }
 
-        fetch(api_url)
+        apiUrl = apiUrl + this.props.id
+
+        fetch(apiUrl)
             .then(response => response.json())
             .then(response => {
                 console.log(response)
@@ -29,7 +37,7 @@ export default class Card extends React.Component<{ id: any }, { card: any }> {
             })
             .catch(err => {
                 console.log(err)
-                console.log("Tried to fetch " + api_url)
+                console.log("Tried to fetch " + apiUrl)
             });
     }
 }

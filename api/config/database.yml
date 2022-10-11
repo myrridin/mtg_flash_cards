@@ -13,3 +13,8 @@ development:
 test:
   <<: *default
   database: mtgflashcards_test
+
+production:
+  <<: *default
+  database: mtgflashcards
+  password: mtgflashcards
