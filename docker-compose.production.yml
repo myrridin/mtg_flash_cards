@@ -5,11 +5,11 @@ services:
     volumes:
       - ./database/db:/var/lib/postgresql/data
     environment:
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: mtgflashcards
+      POSTGRES_USER: mtgflashcards
   api:
     image: myrridin/mtg_flash_cards_api
     environment:
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       RAILS_ENV: production
       RAILS_SERVE_STATIC_FILES: "true"
     build:

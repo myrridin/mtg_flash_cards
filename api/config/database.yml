@@ -17,3 +17,5 @@ test:
 production:
   <<: *default
   database: mtgflashcards
+  user: mtgflashcards
+  password: mtgflashcards
