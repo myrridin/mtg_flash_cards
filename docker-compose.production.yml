@@ -11,6 +11,7 @@ services:
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       RAILS_ENV: production
+      RAILS_SERVE_STATIC_FILES: "true"
     build:
       context: ./api
       dockerfile: Dockerfile-production
