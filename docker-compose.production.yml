@@ -5,16 +5,20 @@ services:
     volumes:
       - ./database/db:/var/lib/postgresql/data
     environment:
-      POSTGRES_PASSWORD: password
-      RAILS_ENV: production
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
   api:
     image: myrridin/mtg_flash_cards_api
-    build: ./api
-    command: bash -c "rm -f tmp/pids/server.pid && rails s -p 3000 -b '0.0.0.0'"
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      RAILS_ENV: production
+    build:
+      context: ./api
+      dockerfile: Dockerfile-production
+    command: bash -c "rm -f tmp/pids/server.pid && rails s -p 80 -b '0.0.0.0'"
     volumes:
       - ./api:/myapp
     ports:
-      - "80:3000"
+      - "80:80"
     depends_on:
       - db
   web:
@@ -23,6 +27,6 @@ services:
     volumes:
       - ./web:/myapp
     ports:
-      - "80:8080"
+      - "8080:8080"
     depends_on:
       - api
