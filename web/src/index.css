@@ -11,3 +11,50 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.buildable-card {
+  background-image: url('img/builder/frame.png');
+  background-repeat: no-repeat;
+  width: 500px;
+  height: 697px;
+  position: relative;
+}
+
+.buildable-card > div {
+  float: left;
+  position: absolute;
+  text-align: left;
+}
+
+  .buildable-card-title {
+    font-weight: bold;
+    left: 45px;
+    top: 43px;
+  }
+
+  .buildable-card-mana-cost {
+    right: 45px;
+    top: 43px;
+    float: right;
+  }
+
+  .buildable-card-type-line {
+    left: 45px;
+    top: 399px;
+  }
+
+  .buildable-card-type-set-code {
+    display: none;
+  }
+
+  .buildable-card-oracle-text {
+    width: 400px;
+    left: 50px;
+    top: 444px;
+  }
+
+  .buildable-card-artist {
+    font-style: italic;
+    left: 200px;
+    top: 642px;
+  }

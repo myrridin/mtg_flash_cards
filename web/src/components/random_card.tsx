@@ -1,8 +1,9 @@
 import React from "react"
-import Card from "./card"
+import BuildableCard from "./buildable_card";
+import CardLink from "./card_link"
 
-export default function RandomCard() {
-    const [cardId, setCardId] = React.useState(null);
+const RandomCard = () => {
+    const [cardId, setCardId] = React.useState(0);
     const [loaded, setLoaded] = React.useState(false);
 
     React.useEffect(
@@ -28,7 +29,11 @@ export default function RandomCard() {
 
     return(
         <div>
-            {loaded && <Card id={cardId} />}
+            {
+                loaded && <div><BuildableCard id={cardId} /><CardLink cardId={cardId} /></div>
+            }
         </div>
     );
 }
+
+export default RandomCard

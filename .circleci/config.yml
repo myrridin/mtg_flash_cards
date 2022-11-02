@@ -12,10 +12,10 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Build docker images
+          name: Build docker img
           command: docker-compose build
       - run:
-          name: Publish docker images to Docker Hub
+          name: Publish docker img to Docker Hub
           command: |
             echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
             docker-compose push
@@ -25,7 +25,7 @@ jobs:
       - checkout
       - run: cd ~/project
       - run:
-          name: Pull docker images
+          name: Pull docker img
           command: |
             echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
             docker-compose -f docker-compose.test.yml pull
