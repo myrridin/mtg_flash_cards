@@ -14,6 +14,9 @@ docker-compose -f docker-compose.production.yml build --pull
 # Start docker compose for the API service
 docker-compose -f docker-compose.production.yml up -d api
 
+# Run any migrations
+docker-compose -f docker-compose.production.yml exec api rails db:migrate
+
 # Build the frontend static files
 docker-compose -f docker-compose.production.yml run web yarn build
 
